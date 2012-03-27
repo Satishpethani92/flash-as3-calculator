@@ -112,5 +112,53 @@ package com.dyq.utils
 			E=matrix_pow(E,value);
 			return E[0][1];
 		}
+		
+		/**
+		 * 阶乘(n!=1*2*...*n)
+		 * @param n
+		 * @return
+		 */
+		public static function factorial(n:int):Number
+		{
+			var m:Number=1;
+			for(var i:int=1;i<=n;m*=i,i++);
+			return m;
+		}
+		
+		/**
+		 * 阶乘[递归版](n!=1*2*...*n)
+		 * @param n
+		 * @return
+		 */
+		public static function factorial_recursion(n:int):Number
+		{
+			return n<=0?1:AS_Math.factorial_recursion(n-1)*n;
+		}
+		
+		/**
+		 * 组合数C(n,m)=n!/(m!*(n-m)!)
+		 * @param n
+		 * @param m
+		 * @return
+		 */
+		public static function combination(n:int,m:int):Number
+		{
+			return (factorial(n)/factorial(m))/factorial(n-m);
+		}
+		
+		/**
+		 * 素数判断
+		 * @param n
+		 * @return true:n是素数 false:n不是素数
+		 */
+		public static function isPrime(n:int):Boolean
+		{
+			if(n<1)return false;
+			for(var i:int=2;i*i<n;i++)
+			{
+				if(n%i==0)return false;
+			}
+			return true;
+		}
 	}
 }

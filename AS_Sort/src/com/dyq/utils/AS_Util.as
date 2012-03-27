@@ -170,5 +170,33 @@ package com.dyq.utils
 		{
 			return int(Math.random() * value) + 1;
 		}
+		
+		/**
+		 * 判断一个字符串是否有周期性
+		 * @param value
+		 * @return 最小周期 -1:表示没有周期性 
+		 */
+		public static function cycle(value:String):int
+		{
+			var len:int=value.length;
+			var ok:int=1;
+			for(var i:int=1;i<=len;i++)
+			{
+				if(len%i==0)
+				{
+					ok=1;
+					for(var j:int=i;j<len;j++)
+					{
+						if(value.charAt(j)!=value.charAt(j%i))
+						{
+							ok=0;
+							break;
+						}
+					}
+					if(ok)return i;
+				}
+			}
+			return -1;
+		}
 	}
 }
