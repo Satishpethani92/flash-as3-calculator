@@ -35,7 +35,9 @@ package com.dyq.utils
 					if (AS_Util.compch(obj, min, j)) min = j;
 				}
 				if (min != i) AS_Util.exch(obj, i, min);
-				AS_Util.printf(obj);
+//				CONFIG::debug{				
+//					AS_Util.printf(obj);
+//				}
 			}
 			return obj;
 		}	

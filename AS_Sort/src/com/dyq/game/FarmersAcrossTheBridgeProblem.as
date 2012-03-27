@@ -8,6 +8,7 @@ package com.dyq.game
 	 * 但是在农夫不在的情况下
 	 * 狼会吃掉羊 羊会吃掉菜
 	 * @author duyouqian
+	 * @version 1.0.0
 	 */
 	public class FarmersAcrossTheBridgeProblem
 	{

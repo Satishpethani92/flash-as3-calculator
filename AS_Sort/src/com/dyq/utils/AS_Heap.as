@@ -67,9 +67,9 @@ package com.dyq.utils
 		 */
 		public function Heap_Sort(arr:Array,heap_size : int):Array
 		{
-			CONFIG::debug{				
-				AS_Util.printf(arr);
-			}
+//			CONFIG::debug{				
+//				AS_Util.printf(arr);
+//			}
 			build_Max_Heap(arr);
 			var temp:int;
 			for(var i:int=heap_size-1;i>0;i--)
@@ -79,9 +79,9 @@ package com.dyq.utils
 				arr[i]=temp;
 				max_heapify(arr, 0, i);
 			}
-			CONFIG::debug{				
-				AS_Util.printf(arr);
-			}
+//			CONFIG::debug{				
+//				AS_Util.printf(arr);
+//			}
 			return arr;
 		}
 

@@ -3,7 +3,7 @@ package com.dyq.utils
 	/**
 	 * 栈结构
 	 * @author dyq
-	 * @see java.util.Steak.java
+	 * @see java.util.Stack.java
 	 * @version 1.0.0
 	 */
 	public class AS_Stack extends Object
@@ -75,6 +75,10 @@ package com.dyq.utils
 			return -1;
 		}
 		
+		/**
+		 * 栈的大小
+		 * @return 
+		 */
 		public function size():int
 		{
 			if(elemt==null)throw new Error("栈不存在");
