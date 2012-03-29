@@ -27,8 +27,9 @@ package com.dyq.utils
 		}
 		
 		/**
-		 * 矩阵乘法 a*b(朴树算法)
+		 * 矩阵乘法 a*b(朴素算法)
 		 * 若A和B是2个n×n的矩阵,则它们的乘积C=AB同样是一个n×n的矩阵
+		 * 时间复杂度:O(n^3)
 		 * @param a
 		 * @param b
 		 * @return a*b
@@ -44,7 +45,7 @@ package com.dyq.utils
 				for(j=0;j<b.length;j++)
 				{
 					temp[j]=0;
-					for(k=0;k<b.length;k++)
+					for(k=0;k<b[j].length;k++)
 					{
 						temp[j]=temp[j]+a[i][k]*b[k][j];
 					}
@@ -55,7 +56,7 @@ package com.dyq.utils
 		}
 		
 		/**
-		 * 矩阵加法 a+b(朴树算法)
+		 * 矩阵加法 a+b(朴素算法)
 		 * @param a
 		 * @param b
 		 * @return a+b
@@ -153,7 +154,7 @@ package com.dyq.utils
 		 */
 		public static function isPrime(n:int):Boolean
 		{
-			if(n<1)return false;
+			if(n<2)return false;
 			for(var i:int=2;i*i<n;i++)
 			{
 				if(n%i==0)return false;
