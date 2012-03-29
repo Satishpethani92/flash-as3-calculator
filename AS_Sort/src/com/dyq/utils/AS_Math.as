@@ -45,7 +45,7 @@ package com.dyq.utils
 				for(j=0;j<b.length;j++)
 				{
 					temp[j]=0;
-					for(k=0;k<b[j].length;k++)
+					for(k=0;k<a[i].length;k++)
 					{
 						temp[j]=temp[j]+a[i][k]*b[k][j];
 					}

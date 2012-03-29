@@ -1,10 +1,7 @@
 package com.dyq.test
 {
-	import com.dyq.utils.AS_Util;
 	import com.dyq.utils.AS_Math;
 	import org.aswing.JLabel;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
 	import org.aswing.geom.IntDimension;
 	import org.aswing.geom.IntPoint;
 	import org.aswing.JButton;
@@ -25,13 +22,13 @@ package com.dyq.test
 	public class TestBezier extends Sprite
 	{
 		private static const NUMBEROFPOINT:int=100;
-		private static const STEP:Number=100;
+		private static const STEP:Number=500;
+		private static const SCALE_INDEX:Number=0.5;
 		private var cp:Vector.<DYQ_Point2D>;
 		private var cure:Vector.<DYQ_Point2D>;
 		private var tempPoint:DYQ_Point2D;
 		private var index:int=0;
-		private var scale:Number=1;
-		
+		private var isScale:Boolean=false;
 		
 		private var startPoint:Sprite;
 		private var inflectionPoint_1:Sprite;
@@ -175,6 +172,7 @@ package com.dyq.test
 		
 		private function onStartPoint(e:MouseEvent):void
 		{
+			isScale=false;
 			switch(e.target.name)
 			{
 				case "startPoint":
@@ -209,8 +207,10 @@ package com.dyq.test
 		
 		private function onClick(e:MouseEvent):void
 		{
+			isScale=false;
 			graphics.clear();
-			graphics.lineStyle(1,0x00ff00);			
+			graphics.lineStyle(1,0x00ff00);	
+			tempPoint=null;		
 			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
 			graphics.moveTo(tempPoint.getX(), tempPoint.getY());
 			//timer.start();
@@ -222,35 +222,12 @@ package com.dyq.test
 		
 		private function onClick2(e:MouseEvent):void
 		{
-			graphics.clear();
-			graphics.lineStyle(1,0x00ff00);	
-			var a1:Array=[
-			[1.5,0,0],
-			[0,1.5,0],
-			[0,0,1]
-			];
-			var b1:Array=[
-			cp[1].getX(),cp[1].getY(),1
-			];
-			var c1:Array=new Array();
-			c1=AS_Math.matrixMultiplication(b1, a1);
-			AS_Util.printf(c1);
-			cp[1].setX(c1[0][0]);	
-			cp[1].setY(c1[1][0]);	
-			var a2:Array=[
-			[1.5,0,0],
-			[0,1.5,0],
-			[0,0,1]
-			];
-			var b2:Array=[
-			cp[2].getX(),cp[2].getY(),1
-			];
-			var c2:Array=new Array();
-			c2=AS_Math.matrixMultiplication(b2, a2);
-			AS_Util.printf(c2);
-			cp[2].setX(c2[0][0]);	
-			cp[2].setY(c2[1][0]);	
-			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP,scale);
+			isScale=true;
+			//graphics.clear();
+			graphics.lineStyle(1,0x0000ff);	
+			
+			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
+			tempPoint=scale(tempPoint,SCALE_INDEX);
 			graphics.moveTo(tempPoint.getX(), tempPoint.getY());
 			//timer.start();
 			this.addEventListener(Event.ENTER_FRAME, timerHandler);
@@ -267,7 +244,9 @@ package com.dyq.test
 				//timer.stop();
 				index=STEP;
 				lab_tag.setText("t:"+index/STEP);
-				tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP,scale);
+				tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
+				if(isScale)
+				tempPoint=scale(tempPoint,SCALE_INDEX);
 				drawPointByPoint(tempPoint);
 				index=0;
 				this.removeEventListener(Event.ENTER_FRAME, timerHandler);
@@ -277,8 +256,30 @@ package com.dyq.test
 				return ;
 			}
 			lab_tag.setText("t:"+index/STEP);
-			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP,scale);
+			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
+			if(isScale)
+			tempPoint=scale(tempPoint,SCALE_INDEX);
 			drawPointByPoint(tempPoint);
+		}
+		
+		private function scale(p:DYQ_Point2D,valueX:Number,valueY:Number=1):DYQ_Point2D
+		{
+			var a1:Array=[
+			[valueX,0,(1-valueX)*cp[0].getX()],
+			[0,valueY,(1-valueY)*cp[0].getY()],
+			[0,0,1],
+			];
+			var b1:Array=[
+			[p.getX()],
+			[p.getY()],
+			[1],
+			];
+			var c1:Array=new Array();
+			c1=AS_Math.matrixMultiplication(a1, b1);
+			//AS_Util.printf(c1);
+			p.setX(c1[0][0]);	
+			p.setY(c1[1][0]);	
+			return p;
 		}
 	}
 }
