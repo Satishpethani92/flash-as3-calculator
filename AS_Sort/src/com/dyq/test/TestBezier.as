@@ -22,8 +22,8 @@ package com.dyq.test
 	public class TestBezier extends Sprite
 	{
 		private static const NUMBEROFPOINT:int=100;
-		private static const STEP:Number=500;
-		private static const SCALE_INDEX:Number=0.5;
+		private static const STEP:Number=100;
+		private static const SCALE_INDEX:Number=0.9;
 		private var cp:Vector.<DYQ_Point2D>;
 		private var cure:Vector.<DYQ_Point2D>;
 		private var tempPoint:DYQ_Point2D;
@@ -227,7 +227,7 @@ package com.dyq.test
 			graphics.lineStyle(1,0x0000ff);	
 			
 			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
-			tempPoint=scale(tempPoint,SCALE_INDEX);
+			tempPoint=scale(tempPoint,SCALE_INDEX,SCALE_INDEX);
 			graphics.moveTo(tempPoint.getX(), tempPoint.getY());
 			//timer.start();
 			this.addEventListener(Event.ENTER_FRAME, timerHandler);
@@ -246,7 +246,7 @@ package com.dyq.test
 				lab_tag.setText("t:"+index/STEP);
 				tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
 				if(isScale)
-				tempPoint=scale(tempPoint,SCALE_INDEX);
+				tempPoint=scale(tempPoint,SCALE_INDEX,SCALE_INDEX);
 				drawPointByPoint(tempPoint);
 				index=0;
 				this.removeEventListener(Event.ENTER_FRAME, timerHandler);
@@ -258,11 +258,11 @@ package com.dyq.test
 			lab_tag.setText("t:"+index/STEP);
 			tempPoint=AS_Bezier.PointOnCubicBezier(cp, index/STEP);
 			if(isScale)
-			tempPoint=scale(tempPoint,SCALE_INDEX);
+			tempPoint=scale(tempPoint,SCALE_INDEX,SCALE_INDEX);
 			drawPointByPoint(tempPoint);
 		}
 		
-		private function scale(p:DYQ_Point2D,valueX:Number,valueY:Number=1):DYQ_Point2D
+		private function scale(p:DYQ_Point2D,valueX:Number,valueY:Number=0.9):DYQ_Point2D
 		{
 			var a1:Array=[
 			[valueX,0,(1-valueX)*cp[0].getX()],
