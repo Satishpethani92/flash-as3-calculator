@@ -208,6 +208,7 @@ package com.dyq.test
 		private function onClick(e:MouseEvent):void
 		{
 			isScale=false;
+			btn_zoom.setEnabled(false);
 			graphics.clear();
 			graphics.lineStyle(1,0x00ff00);	
 			tempPoint=null;		
@@ -223,6 +224,7 @@ package com.dyq.test
 		private function onClick2(e:MouseEvent):void
 		{
 			isScale=true;
+			btn_start.setEnabled(false);
 			//graphics.clear();
 			graphics.lineStyle(1,0x0000ff);	
 			
@@ -253,6 +255,7 @@ package com.dyq.test
 				this.addEventListener(MouseEvent.MOUSE_DOWN, onStartPointDown);
 				this.addEventListener(MouseEvent.MOUSE_UP, onStartPoint);
 				btn_start.setEnabled(true);
+				btn_zoom.setEnabled(true);
 				return ;
 			}
 			lab_tag.setText("t:"+index/STEP);
