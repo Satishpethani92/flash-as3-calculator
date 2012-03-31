@@ -198,5 +198,40 @@ package com.dyq.utils
 			}
 			return -1;
 		}
+		
+		/**
+		 * 把所有的元素都改成int型
+		 * 不修改原数组
+		 * @param ar
+		 */
+		public static function toInt(ar : Array) : Array
+		{
+			var ar1 : Array = [];
+			for (var i : int = 0; i < ar.length; i++)
+			{
+				if (ar[i] != "")
+				{
+					ar1[i] = parseInt(ar[i]);
+				}
+			}
+			return ar1;
+		}
+		
+		/**
+		 * 删除数组的特定值
+		 * @param arr
+		 * @param value
+		 */
+		public static function deleteValueByArray(arr:Array,value:Object):void
+		{
+			for(var i:int=0;i<arr.length;i++)
+			{
+				if(arr[i]==value)
+				{
+					arr.splice(i,1);
+					return;
+				}
+			}
+		}
 	}
 }
