@@ -8,6 +8,35 @@ package com.dyq.utils
 	public class AS_Sort
 	{
 		/**
+		 * 冒泡排序:
+		 * 基本思想是:将被排序的数组obj[0...n-1]垂直排成一列,从上到下扫描数组obj.
+		 * 根据带比较的obj元素的"轻重"(大小),对相邻两个元素,遵循"轻"者(小的)上浮,"重"者(大的)下沉的原则.
+		 * 一遍扫描后,最"重"(大)的已经在最下面.再从最上面开始的n-1个元素进行同样处理.
+		 * 直到最后任何两个元素都满足"轻"者在上,"重"者在下为止.
+		 * @param obj
+		 * @param n
+		 * @return
+		 */
+		public static function Bubble_Sort(obj:Array,n:int):Array
+		{
+			var permutation:int=1;
+			var k:int=n-1;
+			var j:int;
+			while((k>0)&&(permutation==1))
+			{
+				permutation=0;
+				for(j=0;j<k;j++)
+				{
+					if(AS_Util.compch(obj, j, j+1))
+					{
+						AS_Util.exch(obj, j, j+1);
+					}
+				}
+				k=k-1;
+			}
+			return obj;
+		}
+		/**
 		 * 选择排序法之:选择排序
 		 * 选择排序(Selection sort)是一种简单直观的排序算法
 		 * 它的工作原理如下:
