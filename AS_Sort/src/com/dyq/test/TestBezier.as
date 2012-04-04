@@ -118,6 +118,7 @@ package com.dyq.test
 			s.y=y;
 			s.graphics.beginFill(0xff0000);
 			s.graphics.drawRect(0, 0, w, h);
+			s.graphics.endFill();
 			var t:TextField=new TextField();
 			var tf:TextFormat=new TextFormat();
 			tf.size=10;
