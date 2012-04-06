@@ -21,8 +21,8 @@ package com.dyq.test
 	 */
 	public class MakeMap extends Sprite
 	{
-		private static const MAPSIZEX : int = 4;
-		private static const MAPSIZEY : int = 4;
+		private static const MAPSIZEX : int = 20;
+		private static const MAPSIZEY : int = 20;
 		private static const DIRECTION : Array = [[0, 1], [1, 0], [0, -1], [-1, 0]];
 		private var map : Array;
 		private var mark : Array;
@@ -47,8 +47,8 @@ package com.dyq.test
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 
-			// init_mazeMap();
-			build();
+			init_mazeMap();
+			//build();
 
 			// 起点
 			startPoint = drawBlack2(0xff0000);
@@ -62,16 +62,13 @@ package com.dyq.test
 			endPoint.y = (2 * MAPSIZEY + 1) * 10;
 			this.addChild(endPoint);
 
-			map[1][1] = 2;
-			map[2 * MAPSIZEY + 1][2 * MAPSIZEX + 1] = 3;
-
 			for (var i : int = 0;i < 2 * MAPSIZEY + 3;i++)
 			{
 				AS_Util.printf(map[i]);
 			}
 
 			// 搜索
-			// dfs();
+			dfs();
 		}
 
 		/**
@@ -91,6 +88,7 @@ package com.dyq.test
 		 * @param val
 		 * @param a
 		 * @param b
+		 * @return
 		 */
 		private function id(val : int, a : int, b : int) : Array
 		{
@@ -105,9 +103,9 @@ package com.dyq.test
 		private function make() : void
 		{
 			father = new Array(MAPSIZEX * MAPSIZEY + 5);
-			for (var i : int = 0;i < MAPSIZEY;i++)
+			for (var i : int = 0;i < MAPSIZEY+2;i++)
 			{
-				for (var j : int = 0;j < MAPSIZEX;j++)
+				for (var j : int = 0;j < MAPSIZEX+2;j++)
 				{
 					father[hash(i, j, MAPSIZEX)] = hash(i, j, MAPSIZEX);
 				}
@@ -155,10 +153,10 @@ package com.dyq.test
 			ey=rs[1];
 
 			map = new Array();
-			for (i = 0;i < MAPSIZEY ;i++)
+			for (i = 0;i < MAPSIZEY+3 ;i++)
 			{
 				map[i] = new Array();
-				for (j = 0;j < MAPSIZEX ;j++) map[i][j] = 1;
+				for (j = 0;j < MAPSIZEX+3 ;j++) map[i][j] = 1;
 			}
 
 			map[sx][sy] = map[ex][ey] = 0;
@@ -197,11 +195,26 @@ package com.dyq.test
 			for (i = 0;i < 2 * MAPSIZEY + 3;i++)
 			{
 				map[i] = new Array();
-				for (j = 0;j < 2 * MAPSIZEX + 3;j++) map[i][j] = 0;
+				for (j = 0;j < 2 * MAPSIZEX + 3;j++) map[i][j] = 1;
 			}
 			make_maze(MAPSIZEY, MAPSIZEX);
+			
+			for (j = 0;j < 2 * MAPSIZEX + 3;j++) 
+			{
+				map[0][j] = 1;
+				map[2*MAPSIZEY+2][j]=1;
+			}
+			
+			for (j = 0;j < 2 * MAPSIZEY + 3;j++) 
+			{
+				map[j][0] = 1;
+				map[j][2*MAPSIZEX+2]=1;
+			}
 
 			mark = map.slice();
+			
+			map[1][1] = 2;
+			map[2 * MAPSIZEY + 1][2 * MAPSIZEX + 1] = 3;
 
 			init_drawMaze();
 		}
@@ -217,7 +230,7 @@ package com.dyq.test
 			{
 				for (j = 0;j < 2 * MAPSIZEX + 3;j++)
 				{
-					if (map[i][j])
+					if (map[i][j]==1)
 					{
 						s = drawBlack();
 						s.x = j * 10;
@@ -240,18 +253,18 @@ package com.dyq.test
 
 			for (i = 0,j = 2 * y + 2;i <= 2 * x + 2;i++)
 			{
-				map[i][0] = 1;
-				map[i][j] = 1;
+				map[i][0] = 0;
+				map[i][j] = 0;
 			}
 
 			for (i = 0,j = 2 * x + 2;i <= 2 * y + 2;i++)
 			{
-				map[0][i] = 1;
-				map[j][i] = 1;
+				map[0][i] = 0;
+				map[j][i] = 0;
 			}
 
-			map[1][2] = 1;
-			map[2 * x + 1][2 * y] = 1;
+			map[1][2] = 0;
+			map[2 * x + 1][2 * y] = 0;
 			search(AS_Util.getRandom(1000) % x + 1, AS_Util.getRandom(1000) % y + 1);
 		}
 
@@ -266,13 +279,13 @@ package com.dyq.test
 			var i : int,next : int,trun : int,zx : int,zy : int;
 			zx = 2 * x;
 			zy = 2 * y;
-			map[zx][zy] = 1;
+			map[zx][zy] = 0;
 			trun = AS_Util.getRandom(1000) % 2 ? 1 : 3;
 
 			for (i = 0,next = AS_Util.getRandom(1000) % 4;i < 4;i++,next = (next + trun) % 4)
 			{
-				if (map[zx + 2 * DIRECTION[next][0]][zy + 2 * DIRECTION[next][1]] == 0)
-					map[zx + DIRECTION[next][0]][zy + DIRECTION[next][1]] = 1,
+				if (map[zx + 2 * DIRECTION[next][0]][zy + 2 * DIRECTION[next][1]] == 1)
+					map[zx + DIRECTION[next][0]][zy + DIRECTION[next][1]] = 0,
 				search(x + DIRECTION[next][0], y + DIRECTION[next][1]);
 			}
 		}
@@ -329,20 +342,20 @@ package com.dyq.test
 							// next_row++;
 							next_col--;
 							break;
-						case 4:
-							next_row++;
-							break;
-						case 5:
-							next_row++;
-							next_col--;
-							break;
-						case 6:
-							next_col--;
-							break;
-						case 7:
-							next_row--;
-							next_col--;
-							break;
+//						case 4:
+//							next_row++;
+//							break;
+//						case 5:
+//							next_row++;
+//							next_col--;
+//							break;
+//						case 6:
+//							next_col--;
+//							break;
+//						case 7:
+//							next_row--;
+//							next_col--;
+//							break;
 					}
 
 					// trace("mark[", next_row, ",", next_col, "]=", mark[next_row][next_col]);
@@ -355,7 +368,7 @@ package com.dyq.test
 					{
 						if (mark[next_row][next_col] == 0 || mark[next_row][next_col] == 2)
 						{
-							mark[row][col] = 1;
+							mark[next_row][next_col] = 1;
 							point.y = next_row;
 							point.x = next_col;
 							pathStack.push(new Point(next_col, next_row));
@@ -374,14 +387,22 @@ package com.dyq.test
 			{
 				trace("找到出路", pathStack.size());
 				finalStack = new AS_Stack();
+				var t:AS_Stack=new AS_Stack();
+				var o:Object;
 				while (pathStack.size() > 0)
 				{
-					finalStack.push(pathStack.pop());
+					o=pathStack.pop();
+					finalStack.push(o);
+					t.push(o);
+				}
+				while(t.size()>0)
+				{
+					trace("t:",(t.pop() as Point).toString());
 				}
 				dirX = (finalStack.pep() as Point).x - startPoint.x / 10;
 				dirY = (finalStack.pep() as Point).y - startPoint.y / 10;
 				moveEnd = finalStack.pep() as Point;
-				this.addEventListener(Event.ENTER_FRAME, moveBlack);
+				//this.addEventListener(Event.ENTER_FRAME, moveBlack);
 			}
 			else
 			{
