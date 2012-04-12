@@ -1,5 +1,6 @@
 package com.dyq.test
 {
+	import com.dyq.game.AS_24PointGame;
 	import com.dyq.utils.AS_Bezier;
 	import com.dyq.mode.DYQ_Point2D;
 	import com.dyq.utils.AS_Math;
@@ -26,7 +27,23 @@ package com.dyq.test
 
 		public function Test()
 		{
-			this.addEventListener(Event.ADDED_TO_STAGE, init);
+			//this.addEventListener(Event.ADDED_TO_STAGE, init);
+			var n:Vector.<Number>=new Vector.<Number>();
+			var r:Vector.<String>=new Vector.<String>();
+			var g:AS_24PointGame=new AS_24PointGame();
+			n.push(11);
+			n.push(8);
+			n.push(3);
+			n.push(5);
+			
+			r.push(11);
+			r.push(8);
+			r.push(3);
+			r.push(5);
+			
+			g.startGame(n, r);
+			
+			trace(r[0]);
 		}
 
 		private function init(e : Event = null) : void
